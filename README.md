@@ -1,4 +1,5 @@
-![image](https://user-images.githubusercontent.com/487999/79708354-29074a80-82fa-11ea-80df-0db3962fb453.png)
+![](./images/RUMY.png | width=100)
+
 
 # 예제 - 루미 콘서트 예매 어플리케이션
 
