@@ -1,5 +1,4 @@
-![](./images/RUMY.png | width=100)
-
+![](./images/RUMY.png){:height="50%" width="50%"}
 
 # 예제 - 루미 콘서트 예매 어플리케이션
 
