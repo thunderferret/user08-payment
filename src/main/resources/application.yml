@@ -1,0 +1,6 @@
+spring:
+  h2:
+    console:
+      path: /h2console
+      settings:
+        web-admin-password: "1234"
