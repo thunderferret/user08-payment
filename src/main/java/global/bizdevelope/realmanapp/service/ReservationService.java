@@ -1,8 +1,7 @@
 package global.bizdevelope.realmanapp.service;
 
 import global.bizdevelope.realmanapp.domain.Reservation;
-import global.bizdevelope.realmanapp.domain.User;
-import global.bizdevelope.realmanapp.repository.ReservationRepository;
+import global.bizdevelope.realmanapp.domain.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
