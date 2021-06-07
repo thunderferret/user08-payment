@@ -1,25 +1,21 @@
-package global.bizdevelope.realmanapp.domain;
+package global.bizdevelope.realmapay.domain;
 
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
-@Data
 @Entity
-public class User {
+@Data
+public class PayRequest{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    Long Id;
 
-    private String customerName;
-    private String userId;
-
-
-
+    String customerId;
+    String reservationId;
+    boolean balance=true;
 }
