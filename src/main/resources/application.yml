@@ -1,4 +1,7 @@
 spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
 
   h2:
     console:
@@ -8,4 +11,4 @@ spring:
 
 
 server:
-  port: 8081
+  port: 8082
