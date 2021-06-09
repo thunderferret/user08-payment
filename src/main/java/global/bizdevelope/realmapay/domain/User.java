@@ -8,15 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
 @Data
-public class Approved {
+@Entity
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
-    String customerId;
-
+    private String customerName;
+    private String userId;
+    private boolean balance;
 
 }

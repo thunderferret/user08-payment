@@ -1,12 +1,9 @@
 package global.bizdevelope.realmapay.service;
 
-import global.bizdevelope.realmapay.domain.Approved;
-import global.bizdevelope.realmapay.domain.ApprovedRepository;
-import global.bizdevelope.realmapay.domain.PayRequest;
-import global.bizdevelope.realmapay.domain.PayRequestRepository;
+import global.bizdevelope.realmapay.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +15,8 @@ public class ApproveService {
     @Autowired
     PayRequestRepository payRequestRepository;
 
+    @Autowired
+    UserRepository userRepository;
 
     public List<Approved> findAll(){
         List<Approved> approvedList = new ArrayList<>();
@@ -25,27 +24,40 @@ public class ApproveService {
         return approvedList;
     }
 
-    public boolean isApproved(@RequestBody PayRequest payRequest){
-        Boolean isApproved = false;
+    @Transactional
+    public boolean approveCheck(User user){
+        PayRequest payRequest = new PayRequest();
+        payRequest.setCustomerId(user.getUserId());
 
+        Boolean isApproved = false;
         try{
-            payRequestRepository.findByReservationId(payRequest.getReservationId());
+            isApproved=userRepository.findByUserId(user.getUserId()).isBalance();
         }catch (Exception e){
+            payRequest.setPaymentStatus("Fail");
             isApproved=false;
         }
+        payRequest.setPaymentStatus("Success");
+        payRequestRepository.save(payRequest);
+        saveApproveInfo(user);
         return isApproved;
+
     }
 
-    public boolean paymentReq(@RequestBody PayRequest payRequest){
-
+    private void saveApproveInfo(User user){
         Approved approved = new Approved();
-        approved.setCustomerId(payRequest.getCustomerId());
-        approved.setReservationId(payRequest.getReservationId());
-        if(payRequest.isBalance()){
-            approvedRepository.save(approved);
-            return true;
-        }
-        return false;
+        approved.setCustomerId(user.getUserId());
+        approvedRepository.save(approved);
     }
 
+    public String cancelProcedure(User user) {
+        User savedUser=null;
+        try{
+            savedUser=userRepository.findByUserId(user.getUserId());
+        }catch (Exception e){
+            return "pending";
+        }
+        approvedRepository.deleteByCustomerId(savedUser.getUserId());
+        return "cancelled";
+
+    }
 }

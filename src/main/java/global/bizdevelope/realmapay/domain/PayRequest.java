@@ -16,6 +16,5 @@ public class PayRequest{
     Long Id;
 
     String customerId;
-    String reservationId;
-    boolean balance=true;
+    String paymentStatus;
 }

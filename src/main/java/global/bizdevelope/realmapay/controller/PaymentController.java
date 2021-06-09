@@ -2,6 +2,7 @@ package global.bizdevelope.realmapay.controller;
 
 
 import global.bizdevelope.realmapay.domain.PayRequest;
+import global.bizdevelope.realmapay.domain.User;
 import global.bizdevelope.realmapay.service.ApproveService;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sound.midi.SysexMessage;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController("/payment")
@@ -25,19 +27,33 @@ public class PaymentController {
         return "Hello MSA";
     }
 
-    @GetMapping("/customerlist")
-    public List getAllCustomerList(HttpServletRequest req){
+    @GetMapping("/customerlist/getall}")
+    public List getAllCustomerList(){
         return approveService.findAll();
     }
 
-    @PostMapping("/approverequest")
-    public void approveRequest(HttpServletRequest req){
+    @PostMapping("/payment/payrequest")
+    public String payRequest(@RequestBody User user) {
         PayRequest payRequest = new PayRequest();
-        payRequest.setBalance(true);
-        payRequest.setCustomerId("TEST Customer ID");
-        payRequest.setReservationId("Test Reservation Id");
-        approveService.paymentReq(payRequest);
+        payRequest.setCustomerId(user.getUserId());
+
+        if(approveService.approveCheck(user)){
+            return "Accepted";
+        }
+        return "Refused";
     }
+
+    @PostMapping("payment/cancelrequest")
+    public  String cancelRequest(@RequestBody User user){
+        String cancelStatus;
+        cancelStatus=approveService.cancelProcedure(user);
+        if(cancelStatus.equals("cancelled")){
+            return "cancelled";
+        }else{
+            return "pending";
+        }
+    }
+
 
     //
     @Bean

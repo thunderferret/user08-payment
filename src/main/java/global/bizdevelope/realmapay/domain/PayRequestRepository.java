@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PayRequestRepository extends JpaRepository<PayRequest, Long>{
-    public PayRequest findByReservationId(String reservationId);
+    public PayRequest findByCustomerId(String customerId);
 }
